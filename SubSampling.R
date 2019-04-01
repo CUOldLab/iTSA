@@ -3,8 +3,8 @@
 library(utils) #For combinatorics
 library(dplyr)
 
-setwd("C:/Users/sjc/Downloads/iTSA Subsampling/")
-#FullResults <- read.table(file = "20190201_postAnnotate_preSort.csv",
+setwd("C:/path/to/working/directory/")
+
 FullResults <- read.table(file = "20190204_Staurosporine_iTSA52m_KB-EBayesAnalysis.csv", 
                          header = TRUE, 	
                          sep = ",",
