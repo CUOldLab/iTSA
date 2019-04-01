@@ -27,7 +27,6 @@ library(dplyr)
 library(readxl)
 library(lattice)
 library(ggplot2)
-#Need help getting started? Try the cookbook for R: http://www.cookbook-r.com/Graphs/
 library(plotly)
 library(listviewer)
 library(tidyverse)
@@ -36,7 +35,10 @@ library(stringr)
 
 ############################################################################
 ##import data
-setwd("C:/Users/sjc/Downloads/iTSA Subsampling/")  #setwd is not needed if proteinGroups.txt is in folder containing EmpiricalBayes_TMT project
+
+#setwd is not needed if proteinGroups.txt is in this working directory
+#setwd("C:/path/to/working/directory/") 
+
 proteinGroups <- read.table(file = "proteinGroups.txt", 
 		header = TRUE, 	
 		sep = "\t",
