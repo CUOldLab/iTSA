@@ -1,5 +1,6 @@
 #################################################################
-## empirical Bayes Statistical Analysis - script by Kerri Ball and Stephen Coleman
+## empirical Bayes Statistical Analysis - 
+## Kerri Ball and Stephen Coleman
 #################################################################
 
 ### User-defined variables are set below
@@ -115,8 +116,7 @@ if(drawplots){
 data.norm <- setNames(data.norm, columnnames)
 #colnames(data.norm)
 
-### Use limma for empirical bayes
-
+### Use limma for empirical bayes functions
 
 fit <- lmFit(data.norm[,data.TMT], design)
 fit <- eBayes(fit) ##Apply empirical Bayes smoothing to the standard errors.
@@ -127,10 +127,12 @@ ptopf <- topTableF(fit2, adjust="BH",genelist = data[,"ID"],number=Inf)
 ptopf$rank <- 1:length(ptopf$F)
 ptopf$numfp <- ptopf$rank * ptopf$adj.P.Val
 metanms <- c("ID")
-#f.stat <- topTableF(fit2, adjust="BH",genelist = data[,metanms],number=Inf,p.value=1) #this table reports the moderated F-statistic
+#this table reports the moderated F-statistic
+#f.stat <- topTableF(fit2, adjust="BH",genelist = data[,metanms],number=Inf,p.value=1) 
 #View(f.stat)
 
-t.stat <- topTable(fit2, adjust="BH",genelist = data[,metanms], coef=1,p.value=1, number=Inf) #this table reports the moderated t-statistic
+#this table reports the moderated t-statistic
+t.stat <- topTable(fit2, adjust="BH",genelist = data[,metanms], coef=1,p.value=1, number=Inf)
 nms <- grep("logFC", colnames(t.stat)) 
 colnames(t.stat)[nms] <-  "Log2FC"	#change column names
 t.stat$Log10P.Value <- -log(t.stat$P.Value,base=10)
@@ -163,11 +165,11 @@ data.analysis <- data.analysis[order(-data.analysis$Log10adj.P.Val),]
 ### Create gene.name column
 data.analysis$last <- (regexpr(';', as.character(data.analysis$Gene.names))-1) # if no ";" then = -1
 data.analysis$Gene.name <- ifelse(data.analysis$last > 0,(substr(as.character(data.analysis$Gene.names),1,data.analysis$last)),(as.character(data.analysis$Gene.names)))
-  # if no gene name is present then use ID
+ # if no gene name is present then use ID
 data.analysis$last <- nchar(data.analysis$Gene.name)
 data.analysis$name <- data.analysis$Gene.name
 data.analysis$Gene.name <- ifelse (data.analysis$last == 0, as.character(data.analysis$ID),data.analysis$name)
-  # Clean-up matrix for export: reorganize columns
+ # Clean-up matrix for export: reorganize columns
 V_TMT <- grep("V_log2.i._TMT_", colnames(data.analysis))
 D_TMT <- grep("D_log2.i._TMT_", colnames(data.analysis))
 #colnames(data.analysis) 
@@ -189,8 +191,7 @@ write.csv(preData,file=paste(prefix,"_Simple_empiricalBayesAnalysis.csv",sep="")
           row.names = F)
 
 
-
-#Create FDR and FC columns
+#Create and format FDR and FC columns
 data.analysis$FDR0.001Sig <- ifelse(data.analysis$Log10adj.P.Val>=3, 1, 0)
 data.analysis$FDR0.01Sig <- ifelse(data.analysis$Log10adj.P.Val>=2, 1, 0)
 data.analysis$FDR0.05Sig <- ifelse(data.analysis$Log10adj.P.Val>=1.30103, 1, 0)
@@ -225,6 +226,8 @@ if(drawplots){ plot(data.analysis$rank, data.analysis$Log10P.Value) }
 data.data$Gene.name <- paste(data.data$Gene.name, ";", sep="")
 data.data$Gene.names <- paste(data.data$Gene.names, ";", sep="")
 if(drawplots){ View(data.data) }
+
+#This summary file is also what is used as input for the sub-sampling analysis
 write.csv(data.data,file=paste(prefix,"_RankedEmpiricalBayesAnalysis.csv",sep=""),row.names = F)
 
 ### Annotate data
