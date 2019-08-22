@@ -134,7 +134,8 @@ plt.show()
 
 
 
-#The comparison between Savitski TPP, kinobeads, and Webb_TPP
+#The comparison between kinobeads, and the two best-performing iTSA temperatures
+# (this software package can't handle 4-way venns!)
 only_Savitski = len(RemoveNan(set(df["iTSA_48"]) - (set(df["Kinobeads"]) | set(df["iTSA_52"]))))
 only_Kino = len(RemoveNan(set(df["Kinobeads"]) - (set(df["iTSA_48"]) | set(df["iTSA_52"]))))
 only_Webb = len(RemoveNan(set(df["iTSA_52"]) - (set(df["iTSA_56"]) | set(df["Kinobeads"]))))
